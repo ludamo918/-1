@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TK Pro 选品分析系统 | 企业版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2504/2504929.png" type="image/png" />
+    <style>
+      :root {
+        --primary: #6C5DD3; /* Purple from the reference */
+        --secondary: #FF754C; /* Orange accent */
+        --bg-main: #F0F2F5; /* Soft Gray Background */
+        --card-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+      }
+      body {
+        font-family: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif;
+        background-color: #FFF0E6; /* Slight warm tint base like screenshot */
+        background: linear-gradient(135deg, #FFF6F3 0%, #F3F0FF 100%);
+        color: #11142D;
+        -webkit-font-smoothing: antialiased;
+      }
+      
+      /* Custom Scrollbar - Slim & Light */
+      ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #E4E4E4;
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #D1D1D1;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      
+      @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      .animate-scale-in {
+        animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes slideRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      .animate-slide-in-right {
+        animation: slideRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* Gradient Text Animation */
+      @keyframes gradient-x {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .animate-gradient-x {
+        background-size: 200% 200%;
+        animation: gradient-x 3s linear infinite;
+      }
+      
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: var(--card-shadow);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react/": "https://esm.sh/react@18.2.0/",
+    "react-dom": "https://esm.sh/react-dom@18.2.0?deps=react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?deps=react@18.2.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.263.1?deps=react@18.2.0",
+    "recharts": "https://esm.sh/recharts@2.12.0?deps=react@18.2.0,react-dom@18.2.0",
+    "@google/genai": "https://esm.sh/@google/genai",
+    "xlsx": "https://esm.sh/xlsx@0.18.5",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+  </body>
+</html>
