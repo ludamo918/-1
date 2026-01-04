@@ -14,7 +14,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
 }) => {
   const [inputKey, setInputKey] = useState("");
 
-  const handleLogin = () => {
+  const handleEnter = () => {
     if (inputKey.trim()) {
       onLogin(inputKey);
     }
@@ -34,6 +34,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
                  </label>
              )}
           </div>
+
           <h1 className="text-3xl font-black mb-2 text-[#11142D]">欢迎回来</h1>
           <p className="text-[#808191] mb-8 text-sm font-bold">TK Pro 电商数据分析系统</p>
           
@@ -42,14 +43,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
               type="password" 
               value={inputKey}
               onChange={(e) => setInputKey(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-              placeholder="管理员密码 / 用户 Key"
+              onKeyDown={(e) => e.key === 'Enter' && handleEnter()}
+              placeholder="请输入密码 (admin / 888888)"
               className="w-full p-4 bg-[#F9FAFC] border border-[#E4E4E4] rounded-2xl text-[#11142D] font-bold outline-none focus:border-[#6C5DD3]"
             />
-            {inputKey.length > 0 && <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#2F9042]"><CheckCircle2 size={20} /></div>}
           </div>
           
-          <button onClick={handleLogin} className="w-full bg-[#6C5DD3] hover:bg-[#5a4cb5] text-white font-bold py-4 rounded-2xl shadow-lg transition-all">
+          <button onClick={handleEnter} className="w-full bg-[#6C5DD3] hover:bg-[#5a4cb5] text-white font-bold py-4 rounded-2xl shadow-lg transition-all">
             进入系统
           </button>
       </div>
