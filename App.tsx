@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
 
 // === 【配置区域】在这里修改密码 ===
 const ADMIN_PASSWORD = "20261888";  // 👑 管理员密码（进去自带 Key）
-const USER_PASSWORD  = "1997"; // 👥 通用用户密码（进去自己填 Key）
+const USER_PASSWORD  = "1027"; // 👥 通用用户密码（进去自己填 Key）
 const SYSTEM_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || ""; // 读取后台 Key
 
 const DEMO_DATA: Product[] = [
