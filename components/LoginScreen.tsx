@@ -3,15 +3,25 @@ import { UploadCloud, CheckCircle2 } from 'lucide-react';
 
 interface LoginScreenProps {
   onLogin: (key: string) => void;
-  currentAvatar: string;
-  onAvatarChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  currentAvatar?: string;
+  onAvatarChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, currentAvatar, onAvatarChange }) => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ 
+  onLogin, 
+  currentAvatar = "https://api.dicebear.com/9.x/notionists/svg?seed=Felix", 
+  onAvatarChange 
+}) => {
   const [inputKey, setInputKey] = useState("");
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onLogin(inputKey);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-[#F9FAFC] text-[#11142D] relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-screen bg-[#F9FAFC] text-[#11142D] relative overflow-hidden font-sans">
       {/* 背景装饰 */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#6C5DD3]/10 rounded-full blur-[100px]" />
@@ -24,10 +34,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, currentAvatar, onAva
              <div className="w-full h-full rounded-full overflow-hidden border-[4px] border-[#6C5DD3] shadow-lg shadow-indigo-200">
                 <img src={currentAvatar} alt="User" className="w-full h-full object-cover" />
              </div>
-             <label className="absolute bottom-0 right-0 bg-[#11142D] text-white p-2 rounded-full cursor-pointer hover:bg-[#6C5DD3] transition-colors shadow-md">
-                <UploadCloud size={14} />
-                <input type="file" accept="image/*" className="hidden" onChange={onAvatarChange} />
-             </label>
+             {onAvatarChange && (
+                 <label className="absolute bottom-0 right-0 bg-[#11142D] text-white p-2 rounded-full cursor-pointer hover:bg-[#6C5DD3] transition-colors shadow-md">
+                    <UploadCloud size={14} />
+                    <input type="file" accept="image/*" className="hidden" onChange={onAvatarChange} />
+                 </label>
+             )}
           </div>
 
           <h1 className="text-3xl font-black mb-2 text-[#11142D]">欢迎回来</h1>
@@ -38,13 +50,15 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, currentAvatar, onAva
               type="password" 
               value={inputKey}
               onChange={(e) => setInputKey(e.target.value)}
-              placeholder="请输入密码 / API Key"
+              onKeyDown={handleKeyDown}
+              placeholder="管理员密码 / 用户 Key"
               className="w-full p-4 bg-[#F9FAFC] border border-[#E4E4E4] rounded-2xl text-[#11142D] font-bold outline-none focus:border-[#6C5DD3] transition-all group-hover:bg-white"
-              onKeyDown={(e) => e.key === 'Enter' && onLogin(inputKey)}
             />
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#B2B3BD]">
-                <CheckCircle2 size={20} />
-            </div>
+            {inputKey.length > 0 && (
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#2F9042]">
+                    <CheckCircle2 size={20} />
+                </div>
+            )}
           </div>
           
           <button 
@@ -55,12 +69,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, currentAvatar, onAva
           </button>
           
           <p className="mt-6 text-xs text-[#B2B3BD] font-medium">
-            请输入管理员密码或个人 API Key 以继续
+            请输入管理员密码 (admin) 或个人 API Key
           </p>
       </div>
     </div>
   );
 };
 
-// 👇 关键就是这一行！必须要有！
+// 👇👇👇 核心修复：这行必须要有！ 👇👇👇
 export default LoginScreen;
