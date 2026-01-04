@@ -49,32 +49,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ products, maxGmv, onSelect
   const [coinCount, setCoinCount] = useState(0);
   const [flyingCoins, setFlyingCoins] = useState<{id: number}[]>([]);
   const [isJarShaking, setIsJarShaking] = useState(false);
-  const [hasLiked, setHasLiked] = useState(false); // Track if user liked
 
-  // Load initial coins and user status from local storage
+  // Load initial coins from local storage
   useEffect(() => {
-      // Changed keys to v2 to enforce reset ("清零")
-      const savedCoins = localStorage.getItem('tk_pro_global_likes_v2');
-      const userLiked = localStorage.getItem('tk_pro_user_has_liked_v2');
-      
+      const savedCoins = localStorage.getItem('tk_pro_user_coins');
       if (savedCoins) {
           setCoinCount(parseInt(savedCoins, 10));
       } else {
-          setCoinCount(0); // Start from 0
-      }
-
-      if (userLiked === 'true') {
-          setHasLiked(true);
+          // Default number to make it look popular
+          setCoinCount(128); 
       }
   }, []);
 
   const handleAddCoin = () => {
-    if (hasLiked) return; // Prevent duplicate likes
-
     // 1. Update UI State
     const newCount = coinCount + 1;
     setCoinCount(newCount);
-    setHasLiked(true);
     setIsJarShaking(true);
     setTimeout(() => setIsJarShaking(false), 300);
 
@@ -86,11 +76,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ products, maxGmv, onSelect
     }, 800);
 
     // 3. Persist Locally
-    localStorage.setItem('tk_pro_global_likes_v2', newCount.toString());
-    localStorage.setItem('tk_pro_user_has_liked_v2', 'true');
+    localStorage.setItem('tk_pro_user_coins', newCount.toString());
 
     // 4. Send to Backend (Mock Real-time Feedback)
     if (navigator.onLine) {
+        // NOTE: In a real production app, you would replace this URL with your actual backend endpoint.
+        // example: fetch('https://api.your-domain.com/v1/feedback/like', { method: 'POST', body: ... })
         console.log(`[User Feedback] User donated a coin! Total: ${newCount}. Synced to server.`);
     }
   };
@@ -393,7 +384,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ products, maxGmv, onSelect
                {/* Center Text */}
                <h1 className="w-full text-center text-3xl md:text-5xl font-black tracking-tight leading-tight drop-shadow-2xl">
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#FF0080] via-[#FF8C00] to-[#00FA9A] animate-gradient-x" style={{ textShadow: '0 0 30px rgba(255,255,255,0.3)' }}>
-                     少年阿闯 预祝各位兄弟姐妹2026爆单大卖♥️
+                     2026祝各位兄弟姐们爆单大卖
                   </span>
                </h1>
 
@@ -412,17 +403,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ products, maxGmv, onSelect
                    {/* The Jar Button */}
                    <button 
                       onClick={handleAddCoin}
-                      disabled={hasLiked}
-                      className={`relative group/jar bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-3xl transition-all duration-200 ${hasLiked ? 'cursor-default opacity-80' : 'hover:bg-white/20 active:scale-95 cursor-pointer'} ${isJarShaking ? 'animate-wiggle' : ''}`}
-                      title={hasLiked ? "您已点赞 (You have already liked)" : "点击投币反馈 (Click to Donate Coin/Like)"}
+                      className={`relative group/jar bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 p-4 rounded-3xl transition-all duration-200 active:scale-95 ${isJarShaking ? 'animate-wiggle' : ''}`}
+                      title="点击投币反馈 (Click to Donate Coin/Like)"
                    >
                         <div className="flex items-center gap-3">
                             <div className="relative">
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(234,179,8,0.5)] transition-shadow ${hasLiked ? 'bg-gradient-to-br from-gray-300 to-gray-400 grayscale' : 'bg-gradient-to-br from-yellow-300 to-yellow-600 group-hover/jar:shadow-[0_0_30px_rgba(234,179,8,0.8)]'}`}>
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-600 flex items-center justify-center shadow-[0_0_20px_rgba(234,179,8,0.5)] group-hover/jar:shadow-[0_0_30px_rgba(234,179,8,0.8)] transition-shadow">
                                     <ThumbsUp size={24} className="text-white -rotate-12" fill="currentColor" />
                                 </div>
-                                {/* Ping animation only if not liked yet */}
-                                {!hasLiked && <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-[#11142D] animate-ping"></div>}
+                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-[#11142D] animate-ping"></div>
                             </div>
                             <div className="text-left">
                                 <p className="text-[10px] text-white/70 font-bold uppercase tracking-wide">存钱罐 (Likes)</p>
@@ -430,11 +419,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ products, maxGmv, onSelect
                                     <span className="text-2xl font-black text-white font-mono tracking-tighter" style={{textShadow: '0 2px 10px rgba(0,0,0,0.5)'}}>
                                         {coinCount.toLocaleString()}
                                     </span>
-                                    {hasLiked ? (
-                                        <span className="text-xs text-white/50 font-bold ml-1">已赞</span>
-                                    ) : (
-                                        <span className="text-xs text-yellow-400 font-bold">+1</span>
-                                    )}
+                                    <span className="text-xs text-yellow-400 font-bold">+1</span>
                                 </div>
                             </div>
                         </div>
