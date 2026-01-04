@@ -9,16 +9,13 @@ import { UploadCloud, LogOut, Sliders, Home, Zap, Layers, CheckCircle2, Globe, S
 import * as XLSX from 'xlsx';
 
 // === 配置区域 ===
-const ADMIN_PASSWORD = "admin";
-const USER_PASSWORD  = "888888";
+const ADMIN_PASSWORD = "20261888";
+const USER_PASSWORD  = "1997";
 const SYSTEM_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || "";
 
 const DEMO_DATA: Product[] = [
     { id: '1', title: '星空投影灯', price: 24.99, sales: 12500, gmv: 312375, imageUrl: 'https://picsum.photos/200/200?random=1', originalData: {} },
-    { id: '2', title: '收腹塑身衣', price: 18.50, sales: 8900, gmv: 164650, imageUrl: 'https://picsum.photos/200/200?random=2', originalData: {} },
-    { id: '3', title: '磁吸充电宝', price: 12.99, sales: 5400, gmv: 70146, imageUrl: 'https://picsum.photos/200/200?random=3', originalData: {} },
-    { id: '4', title: '便携热敏打印机', price: 29.99, sales: 3200, gmv: 95968, imageUrl: 'https://picsum.photos/200/200?random=4', originalData: {} },
-    { id: '5', title: '落日氛围灯', price: 15.00, sales: 2100, gmv: 31500, imageUrl: 'https://picsum.photos/200/200?random=5', originalData: {} },
+    { id: '2', title: '收腹塑身衣', price: 18.50, sales: 8900, gmv: 164650, imageUrl: 'https://picsum.photos/200/200?random=2', originalData: {} }
 ];
 
 export const DEFAULT_AVATAR = "https://api.dicebear.com/9.x/notionists/svg?seed=Felix";
@@ -76,7 +73,7 @@ export default function App() {
       localStorage.removeItem('tk_pro_role');
   };
 
-  // 文件处理逻辑
+  // 核心功能：文件处理
   const processFileContent = (data: any[]) => {
       if (data.length > 0) {
         setRawHeaders(Object.keys(data[0]));
@@ -175,9 +172,7 @@ export default function App() {
             <div className={`w-[72px] h-[72px] rounded-full overflow-hidden border-[3px] shadow-xl shrink-0 ${userRole === 'admin' ? 'border-[#2F9042] shadow-green-200' : 'border-[#6C5DD3] shadow-indigo-200'}`}>
                 <img src={userAvatar} className="w-full h-full object-cover" alt="User" />
             </div>
-            <h1 className="text-[26px] font-black text-[#11142D] tracking-tight leading-8">
-                电商<br/>数据分析
-            </h1>
+            <h1 className="text-[26px] font-black text-[#11142D] tracking-tight leading-8">电商<br/>数据分析</h1>
         </div>
 
         <div className="flex-1 overflow-y-auto px-7 py-6 space-y-12 custom-scrollbar">
